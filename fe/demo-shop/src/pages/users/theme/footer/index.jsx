@@ -12,7 +12,7 @@ const Footer = () => {
     <footer className="footer">
       <div className="container">
         <div className="row">
-          <div className="col-lg-3">
+          <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12">
             <div className="footer__about">
               <div className="footer__about__logo">
                 <h1>ND SHOP</h1>
@@ -26,7 +26,7 @@ const Footer = () => {
               </ul>
             </div>
           </div>
-          <div className="col-lg-6">
+          <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
             <div className="footer__widget">
               <h6>Store</h6>
               <ul>
@@ -53,12 +53,12 @@ const Footer = () => {
               </ul>
             </div>
           </div>
-          <div className="col-lg-3">
+          <div className="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <div className="footer__widget">
               <h6>Promotions and offers</h6>
-              <b>Sign up for advice here</b>
+              <p>Sign up for advice here</p>
               <form action="#">
-                <div>
+                <div className="input-group">
                   <input type="text" placeholder="Enter email" />
                   <button type="submit" className="button-submit">
                     Register
