@@ -10,11 +10,14 @@ import {
   AiOutlineUser,
   AiOutlineMail,
   AiOutlineShoppingCart,
+  AiOutlineMenu,
+  AiOutlinePhone,
 } from "react-icons/ai";
 import { ROUTERS } from "../../../../utils/router";
 
 const Header = () => {
-  const [menus, setMenus] = useState([
+  const [isShowCategories, setShowCategories] = useState(true);
+  const [menus] = useState([
     {
       name: "Home",
       path: ROUTERS.USER.HOME,
@@ -138,6 +141,69 @@ const Header = () => {
                   </ink>
                 </li>
               </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="container">
+        <div className="row hero__categories__container">
+          <div className="col-lg-3 hero__categories">
+            <div
+              className="hero__categories__all "
+              onClick={() => setShowCategories(!isShowCategories)}
+            >
+              <AiOutlineMenu />
+              Products list
+            </div>
+            {/* {isShowCategories && ( */}
+            <ul className={isShowCategories ? "" : "hidden"}>
+              <li>
+                <Link to={""}>Meat</Link>
+              </li>
+              <li>
+                <Link to={""}>Vegetables</Link>
+              </li>
+              <li>
+                <Link to={""}>Fruit juice</Link>
+              </li>
+              <li>
+                <Link to={""}>Fruit</Link>
+              </li>
+              <li>
+                <Link to={""}>Seafood</Link>
+              </li>
+            </ul>
+            {/* )} */}
+          </div>
+          <div className="col-lg-9 hero__search__container">
+            <div className="hero__search">
+              <div className="hero__search__form">
+                <form>
+                  <input type="text" placeholder="What do you want to find?" />
+                  <button type="submit">Search</button>
+                </form>
+              </div>
+              <div className="hero__search__phone">
+                <div className="hero__search__phone__icon">
+                  <AiOutlinePhone />
+                </div>
+                <div className="hero__search__phone__text">
+                  <p>0365.748.674</p>
+                  <span>27/7 support</span>
+                </div>
+              </div>
+            </div>
+            <div className="hero__item">
+              <div className="hero__text">
+                <span>Fruit</span>
+                <h2>
+                  Vegetable <br /> 100% safe and healthy
+                </h2>
+                <p>Free delivery fee</p>
+                <Link to="" className="primary-btn">
+                  Buy now
+                </Link>
+              </div>
             </div>
           </div>
         </div>
