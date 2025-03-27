@@ -12,6 +12,9 @@ import {
   AiOutlineShoppingCart,
   AiOutlineMenu,
   AiOutlinePhone,
+  AiOutlineDownCircle,
+  AiOutlineUpCircle,
+  AiTwotoneMail,
 } from "react-icons/ai";
 
 import { BiUser } from "react-icons/bi";
@@ -20,7 +23,7 @@ import { ROUTERS } from "../../../../utils/router";
 const Header = () => {
   const [isShowCategories, setShowCategories] = useState(true);
   const [isShowHamburger, setShowHamburger] = useState(false);
-  const [menus] = useState([
+  const [menus, setMenus] = useState([
     {
       name: "Home",
       path: ROUTERS.USER.HOME,
@@ -92,7 +95,40 @@ const Header = () => {
         </div>
         <div className="hamburger__menu__nav">
           <ul>
-            <li>Menu Item</li>
+            {menus.map((menu, menuKey) => (
+              <li key={menuKey} to={menu.path}>
+                <Link
+                  to={menu.path}
+                  onClick={() => {
+                    const newMenus = [...menus];
+                    newMenus[menuKey].isShowSubmenu =
+                      !newMenus[menuKey].isShowSubmenu;
+                    setMenus(newMenus);
+                  }}
+                >
+                  {menu.name}
+                  {menu.child &&
+                    (menu.isShowSubmenu ? (
+                      <AiOutlineDownCircle />
+                    ) : (
+                      <AiOutlineUpCircle />
+                    ))}
+                </Link>
+                {menu.child && (
+                  <ul
+                    className={`header__menu__dropdown ${
+                      menu.isShowSubmenu ? "show__submenu" : ""
+                    }`}
+                  >
+                    {menu.child.map((childItem, childKey) => (
+                      <li key={`${menuKey}-${childKey}`}>
+                        <Link to={childItem.path}>{childItem.name}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
           </ul>
         </div>
         <div className="header__top__right__social">
@@ -119,7 +155,8 @@ const Header = () => {
         <div className="hamburger__menu__contact">
           <ul>
             <li>
-              <i className="fa fa-envelope" /> duynhgcs200881@fpt.edu.vn
+              <AiTwotoneMail />
+              duynhgcs200881@fpt.edu.vn
             </li>
             <li>Free shipping for orders from {formatter(200000)}</li>
           </ul>
