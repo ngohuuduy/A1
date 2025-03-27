@@ -13,10 +13,13 @@ import {
   AiOutlineMenu,
   AiOutlinePhone,
 } from "react-icons/ai";
+
+import { BiUser } from "react-icons/bi";
 import { ROUTERS } from "../../../../utils/router";
 
 const Header = () => {
   const [isShowCategories, setShowCategories] = useState(true);
+  const [isShowHamburger, setShowHamburger] = useState(false);
   const [menus] = useState([
     {
       name: "Home",
@@ -56,6 +59,73 @@ const Header = () => {
   ]);
   return (
     <>
+      <div
+        className={`hamburger__menu__overlay ${
+          isShowHamburger ? "active" : ""
+        }`}
+        onClick={() => setShowHamburger(false)}
+      />
+      <div
+        className={`hamburger__menu__wrapper ${isShowHamburger ? "show" : ""}`}
+      >
+        <div className="header__logo">
+          <h1>ND SHOP</h1>
+        </div>
+        <div className="hamburger__menu__cart">
+          <ul>
+            <li>
+              <Link to="">
+                <AiOutlineShoppingCart /> <span>1</span>
+              </Link>
+            </li>
+          </ul>
+          <div className="header__cart__price">
+            Shopping cart : <span>{formatter(1000000)}</span>
+          </div>
+        </div>
+        <div className="hamburger__menu__widget">
+          <div className="header__top__right__auth">
+            <Link to="">
+              <BiUser /> Login
+            </Link>
+          </div>
+        </div>
+        <div className="hamburger__menu__nav">
+          <ul>
+            <li>Menu Item</li>
+          </ul>
+        </div>
+        <div className="header__top__right__social">
+          <Link to={""}>
+            <AiOutlineFacebook />
+          </Link>
+
+          <Link to={""}>
+            <AiOutlineInstagram />
+          </Link>
+
+          <Link to={""}>
+            <AiOutlineLinkedin />
+          </Link>
+
+          <Link to={""}>
+            <AiOutlineWhatsApp />
+          </Link>
+
+          <Link to={""}>
+            <AiOutlineUser />
+          </Link>
+        </div>
+        <div className="hamburger__menu__contact">
+          <ul>
+            <li>
+              <i className="fa fa-envelope" /> duynhgcs200881@fpt.edu.vn
+            </li>
+            <li>Free shipping for orders from {formatter(200000)}</li>
+          </ul>
+        </div>
+      </div>
+
       <div className="header_top">
         <div className="container">
           <div className="row">
@@ -63,9 +133,9 @@ const Header = () => {
               <ul>
                 <li>
                   <AiOutlineMail />
-                  Hello@gmail.com
+                  duynhgcs200881@fpt.edu.vn
                 </li>
-                <li>Free ship {formatter(200000)}</li>
+                <li>Free shipping for orders from {formatter(200000)}</li>
               </ul>
             </div>
 
@@ -104,12 +174,12 @@ const Header = () => {
       </div>
       <div className="container">
         <div className="row">
-          <div className="col-lg-3 col-xl-3">
+          <div className="col-lg-3">
             <div className="header__logo">
               <h1>ND SHOP</h1>
             </div>
           </div>
-          <div className="col-lg-3 col-xl-6">
+          <div className="col-lg-6">
             <nav className="header__menu">
               <ul>
                 {menus?.map((menu, menuKey) => (
@@ -129,7 +199,7 @@ const Header = () => {
               </ul>
             </nav>
           </div>
-          <div className="col-lg-3 col-xl-3">
+          <div className="col-lg-3">
             <div className="header__cart">
               <div className="header__cart__price">
                 <span>{formatter(1000000)}</span>
@@ -141,6 +211,9 @@ const Header = () => {
                   </ink>
                 </li>
               </ul>
+            </div>
+            <div className="hamburger__open">
+              <AiOutlineMenu onClick={() => setShowHamburger(true)} />
             </div>
           </div>
         </div>
