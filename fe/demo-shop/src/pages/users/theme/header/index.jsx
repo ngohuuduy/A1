@@ -1,6 +1,6 @@
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import "./style.scss";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { formatter } from "../../../../utils/formater";
 import {
   AiOutlineFacebook,
@@ -21,8 +21,11 @@ import { BiUser } from "react-icons/bi";
 import { ROUTERS } from "../../../../utils/router";
 
 const Header = () => {
-  const [isShowCategories, setShowCategories] = useState(true);
+  const location = useLocation();
+
   const [isShowHamburger, setShowHamburger] = useState(false);
+  const [isHome, setIsHome] = useState(location.pathname.length <= 1);
+  const [isShowCategories, setIsShowCategories] = useState(isHome);
   const [menus, setMenus] = useState([
     {
       name: "Home",
@@ -60,6 +63,14 @@ const Header = () => {
       path: "",
     },
   ]);
+
+  useEffect(() => {
+    const isHome = location.pathname.length <= 1;
+    setIsHome(isHome);
+    setIsShowCategories(isHome);
+  }, [location]);
+
+  const categories = ["Meat", "Vegetables", "Fruit juice", "Fruit", "Seafood"];
   return (
     <>
       <div
@@ -257,35 +268,25 @@ const Header = () => {
       </div>
       <div className="container">
         <div className="row hero__categories__container">
-          <div className="col-lg-3 hero__categories">
+          <div className="col-lg-3  col-sm-12 col-xs-12 col-md-12 hero__categories">
             <div
               className="hero__categories__all "
-              onClick={() => setShowCategories(!isShowCategories)}
+              onClick={() => setIsShowCategories(!isShowCategories)}
             >
               <AiOutlineMenu />
               Products list
             </div>
             {/* {isShowCategories && ( */}
             <ul className={isShowCategories ? "" : "hidden"}>
-              <li>
-                <Link to={""}>Meat</Link>
-              </li>
-              <li>
-                <Link to={""}>Vegetables</Link>
-              </li>
-              <li>
-                <Link to={""}>Fruit juice</Link>
-              </li>
-              <li>
-                <Link to={""}>Fruit</Link>
-              </li>
-              <li>
-                <Link to={""}>Seafood</Link>
-              </li>
+              {categories.map((category, key) => (
+                <li key={key}>
+                  <Link to={ROUTERS.USER.PRODUCTS}>{category}</Link>
+                </li>
+              ))}
             </ul>
             {/* )} */}
           </div>
-          <div className="col-lg-9 hero__search__container">
+          <div className="col-lg-9  col-sm-12 col-xs-12 col-md-12 hero__search__container">
             <div className="hero__search">
               <div className="hero__search__form">
                 <form>
@@ -303,18 +304,20 @@ const Header = () => {
                 </div>
               </div>
             </div>
-            <div className="hero__item">
-              <div className="hero__text">
-                <span>Fruit</span>
-                <h2>
-                  Vegetable <br /> 100% safe and healthy
-                </h2>
-                <p>Free delivery fee</p>
-                <Link to="" className="primary-btn">
-                  Buy now
-                </Link>
+            {isHome && (
+              <div className="hero__item">
+                <div className="hero__text">
+                  <span>Fruit</span>
+                  <h2>
+                    Vegetable <br /> 100% safe and healthy
+                  </h2>
+                  <p>Free delivery fee</p>
+                  <Link to="" className="primary-btn">
+                    Buy now
+                  </Link>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>

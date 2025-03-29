@@ -185,7 +185,7 @@ const HomePage = () => {
       const tabPanel = [];
       data[key].products.forEach((item, j) => {
         tabPanel.push(
-          <div className="col-lg-3" key={j}>
+          <div className="col-lg-3 col-md-4 col-md-6 col-xs-12" key={j}>
             <div className="featured__item">
               <div
                 className="featured__item__pic"
@@ -228,21 +228,23 @@ const HomePage = () => {
 
   return (
     <>
-      {/*Categories Begin */}
-      <div className="container container__categories_slider">
-        <Carouse responsive={responsive} className="categories_slider">
-          {sliderItems.map((item, key) => (
-            <div
-              className="categories_slider_item"
-              style={{ backgroundImage: `url(${item.bgImg})` }}
-              key={key}
-            >
-              <p>{item.name}</p>
-            </div>
-          ))}
-        </Carouse>
+      {/* Categories Begin */}
+      <div className="categories_section">
+        <div className="container">
+          <Carouse responsive={responsive} className="categories_slider">
+            {sliderItems.map((item, key) => (
+              <div
+                className="categories_slider_item"
+                style={{ backgroundImage: `url(${item.bgImg})` }}
+                key={key}
+              >
+                <p>{item.name}</p>
+              </div>
+            ))}
+          </Carouse>
+        </div>
       </div>
-      {/*Categories End */}
+      {/* Categories End */}
       {/* Featured Begin  */}
       <div className="container">
         <div className="featured">

@@ -1,9 +1,8 @@
 @use "sass:map";
 @import "../../../style/pages/all";
 
-.container__categories_slider {
-  max-width: 1200px !important;
-  margin-top: 30px !important;
+.categories_section {
+  margin-top: 30px;
 
   .categories_slider {
     .categories_slider_item {
@@ -11,7 +10,7 @@
       position: relative;
       background-repeat: no-repeat;
       background-size: cover;
-      background-position: top center;
+      background-position: center;
       border-radius: 5px;
 
       p {
@@ -33,9 +32,16 @@
         }
       }
     }
-    .react-multi-carousel-item:not(:first-child):not(:last-child) {
-      margin-left: 5px;
-      margin-right: 5px;
+
+    // Fix khoảng cách giữa các slide
+    .react-multi-carousel-item {
+      padding: 0 5px;
+    }
+
+    // Ngăn carousel tràn container
+    .react-multi-carousel-list {
+      margin-left: -5px;
+      margin-right: -5px;
     }
   }
 }
@@ -163,9 +169,31 @@
   margin-bottom: 30px;
   justify-content: center;
 
+  @include Responsive($SMALL_DEVICES) {
+    flex-direction: column;
+  }
+
   img {
-    width: 400px;
-    height: 200px;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
+  }
+}
+
+@include Responsive($MEDIUM_DEVICE) {
+  .container {
+    width: 990px !important;
+  }
+}
+
+@include Responsive($TABLET_DEVICE) {
+  .container {
+    max-width: 750px !important;
+  }
+}
+
+@include Responsive($WIDE_MOBILE) {
+  .container {
+    max-width: 540px !important;
   }
 }
