@@ -131,13 +131,17 @@ void loop() {
     int hour = now.hour();
     int minute = now.minute();
 
-    if (autoMode) {
+    if (manualPump) {
+      digitalWrite(RELAY_PIN, HIGH);  // ✅ Tưới liên tục, không điều kiện
+    }
+    else if (autoMode) {
       if (soilPercent < 40 && h < 80 && t >= 15 && t <= 40) {
         digitalWrite(RELAY_PIN, HIGH);
       } else {
         digitalWrite(RELAY_PIN, LOW);
       }
-    } else if (timerMode) {
+    }
+    else if (timerMode) {
       if ((hour == 6 || hour == 17) && minute < 5) {
         if (soilPercent < 40 && h < 80 && t >= 15 && t <= 40) {
           digitalWrite(RELAY_PIN, HIGH);
@@ -147,10 +151,9 @@ void loop() {
       } else {
         digitalWrite(RELAY_PIN, LOW);
       }
-    } else if (manualPump) {
-      digitalWrite(RELAY_PIN, HIGH);  // ✅ Tưới liên tục, không điều kiện
-    } else {
-      digitalWrite(RELAY_PIN, LOW);   // Trường hợp không mode nào được bật
+    }
+    else {
+      digitalWrite(RELAY_PIN, LOW);
     }
 
     needRedraw = true;
