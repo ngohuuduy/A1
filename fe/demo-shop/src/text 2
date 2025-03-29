@@ -1,0 +1,74 @@
+#include <Arduino.h>
+#include <WiFi.h>
+#include <ESP32Servo.h>
+
+#define BLYNK_TEMPLATE_ID "TMPL6mht5cUSE"
+#define BLYNK_TEMPLATE_NAME "TEST"
+#define BLYNK_AUTH_TOKEN "NNFXQZuMCq2TGzmtPvjQrZ-f-E42aN5"
+
+#include <BlynkSimpleEsp32.h>
+#include <TimeLib.h>
+
+BlynkTimer timer;
+
+char ssid[] = "Phong 308";
+char pass[] = "Matkhaucu";
+
+int moisture, sensor_analog;
+const int sensor_pin = 36; /* Soil moisture sensor O/P pin */
+const int relay = 17;
+bool relay_state = false;
+
+void sendSensor()
+{
+  sensor_analog = analogRead(sensor_pin);
+  moisture = (100 - ((sensor_analog / 4095.00) * 100));
+  Serial.print("Moisture = ");
+  Serial.print(moisture); /* Print Temperature on the serial window */
+  Serial.println("%");
+  Blynk.virtualWrite(V2, moisture);
+  delay(1000); /* Wait for 1000mS */
+
+  if (moisture < 10 && relay_state == false)
+  {
+    digitalWrite(relay, LOW);
+    Blynk.virtualWrite(V0, HIGH);
+    relay_state = true;
+  }
+  else if (moisture >= 50)
+  {
+    digitalWrite(relay, HIGH);
+    Blynk.virtualWrite(V0, LOW);
+    Blynk.virtualWrite(V1, LOW);
+    relay_state = false;
+  }
+}
+void setup()
+{
+  Serial.begin(9600);
+  Blynk.begin(BLYNK_AUTH_TOKEN, ssid, pass);
+  pinMode(relay, OUTPUT);
+  digitalWrite(relay, HIGH);
+  timer.setInterval(1000L, sendSensor);
+}
+
+void loop()
+{
+  Blynk.run();
+  timer.run();
+}
+
+BLYNK_WRITE(V1)
+{
+  int pinValue = param.asInt();
+  if (pinValue == 1)
+  {
+    digitalWrite(relay, LOW);
+    Blynk.virtualWrite(V0, HIGH);
+  }
+  else
+  {
+    digitalWrite(relay, HIGH);
+    Blynk.virtualWrite(V0, LOW);
+  }
+}
