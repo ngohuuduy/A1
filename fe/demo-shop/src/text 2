@@ -35,7 +35,6 @@ bool manualPump = false;
 
 char message[] = "Ngo Huu Duy - GCS200881";
 char daysOfTheWeek[7][4] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
-char monthsOfTheYear[12][3] = {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
 
 const unsigned char temp_arr[] PROGMEM = {
   0x00, 0x00, 0x01, 0x80, 0x02, 0x40, 0x03, 0x40,
@@ -101,13 +100,13 @@ void drawDisplay() {
   display.clearDisplay();
   DateTime now = rtc.now();
 
+  // Hiển thị: Sun, 29/03/2025 14:09
   display.setCursor(0, 0);
-  display.printf("%s, %02d/%s/%04d %02d:%02d:%02d",
+  display.printf("%s, %02d/%02d/%04d %02d:%02d",
     daysOfTheWeek[now.dayOfTheWeek()],
-    now.day(),
-    monthsOfTheYear[now.month() - 1],
-    now.year(),
-    now.hour(), now.minute(), now.second());
+    now.day(), now.month(), now.year(),
+    now.hour(), now.minute()
+  );
 
   display.setCursor(x, 10);
   display.print(message);
@@ -137,6 +136,9 @@ void setup() {
 
   dht.begin();
   rtc.begin();
+
+  // ✅ Chạy 1 lần để cập nhật thời gian đúng (sau đó có thể comment lại)
+  rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
 
   WiFi.begin(ssid, pass);
   while (WiFi.status() != WL_CONNECTED) {
